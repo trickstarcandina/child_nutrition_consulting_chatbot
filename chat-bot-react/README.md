@@ -1,3 +1,19 @@
+# cách cài đặt môi trường react 
+
+- Cài NodeJs. Kiểm tra bằng cách gõ node -v hoặc npm -v để biết đã thành công hay chưa. 
+
+Nếu thành công sẽ hiển thị như sau:
+
+node -v ... v14.15.5
+
+npm -v ... 6.14.11
+
+- Tạo dự án React : npx create-react-app tên-dự-án
+
+- Chạy thử dự án : npm start
+
+===================================================================================================================
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
