@@ -14,7 +14,7 @@
     grid-gap: 15px;
     grid-area: chat-form;
     border-radius: 0 0 10px 0;
-    border-top: 1px solid rgba(42, 61, 12, 0.34);
+    border-top: 1px solid rgba(0,0,0,0.25);
     padding-left: 42px;
     padding-right: 22px;
   }
