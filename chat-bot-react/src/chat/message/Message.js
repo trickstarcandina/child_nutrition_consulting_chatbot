@@ -1,26 +1,24 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import './Message.css';
 
-const Message = (props) => {
-    let messageClass = 'message-row';
-    let imageThumbnail = null;
-
-    if (props.isMyMessage) {
-        messageClass += ' you-message';
-    } else {
-        messageClass += ' other-message';
-        imageThumbnail = <img src={props.message.imageUrl} alt={props.message.imageAlt} width="50" height="50"/>;
-    }
+const Message = ({ isMyMessage, message }) => {
+    const messageClass = classNames('message-row', {
+        'you-message': isMyMessage,
+        'other-message': !isMyMessage
+    });
+    
+    const imageThumbnail = isMyMessage ? null : <img src={message.imageUrl} alt={message.imageAlt} width="50" height="50"/>;
 
     return (
         <div className={messageClass}>
             <div className="message-content">
                 {imageThumbnail}
                 <div className="message-text">
-                    {props.message.messageText}
+                    {message.messageText}
                 </div>
-                <div className="message-time">{props.message.createdAt}</div>
+                <div className="message-time">{message.createdAt}</div>
             </div>
         </div>
     );
