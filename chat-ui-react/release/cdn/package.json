@@ -1,0 +1,11 @@
+{
+  "name": "cdn",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "serve src"
+  },
+  "devDependencies": {
+    "serve": "12.0.1"
+  }
+}
