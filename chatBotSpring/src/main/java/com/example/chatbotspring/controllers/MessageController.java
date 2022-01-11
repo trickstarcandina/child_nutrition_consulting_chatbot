@@ -1,27 +1,23 @@
 package com.example.chatbotspring.controllers;
 
+import com.example.chatbotspring.services.MessageService;
 import lombok.AllArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
+@RequestMapping("/api")
 @AllArgsConstructor
-class MessageController {
+public class MessageController {
 
-    private SimpMessagingTemplate template;
+    private final MessageService messageService;
 
-//    @MessageMapping("/chat-register")
-//    @SendTo("/topic/public")
-//    MessageEntity register(@Payload MessageEntity chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-//        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender())
-//        return chatMessage
-//    }
-
-    @MessageMapping("/message/send")
-    public void sendMessage() {
-
+    @PostMapping("/sendMessage")
+    public ResponseEntity<String> sendMessage(@RequestParam("message") String message) {
+        return ResponseEntity.ok(messageService.solveMessage(message));
     }
 
 }
