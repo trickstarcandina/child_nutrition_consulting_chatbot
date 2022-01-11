@@ -33,4 +33,8 @@ public class MessageService {
     private String tuVanVaiTroDinhDuong(String message) {
         return "";
     }
+
+    public static void main(String[] args) {
+
+    }
 }
