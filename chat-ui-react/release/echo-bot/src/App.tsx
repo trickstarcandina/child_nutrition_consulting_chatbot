@@ -1,6 +1,6 @@
 import {
   Box,
-  Button,
+  // Button,
   CssBaseline,
   Divider,
   // Link,
@@ -9,10 +9,10 @@ import {
   createTheme,
 } from '@mui/material';
 import {
-  ActionRequest,
-  AudioActionResponse,
+  // ActionRequest,
+  // AudioActionResponse,
   ChatController,
-  FileActionResponse,
+  // FileActionResponse,
   MuiChat,
 } from 'chat-ui-react';
 import React from 'react';
@@ -53,11 +53,6 @@ export function App(): React.ReactElement {
         >
           <Typography sx={{ p: 1 }}>
             Chào mừng đến với hệ thống tư vấn dinh dưỡng cho trẻ em
-            {/* Welcome to{' '}
-            <Link href="https://github.com/twihike/chat-ui-react">
-              chat-ui-react
-            </Link>{' '}
-            demo site. */}
           </Typography>
           <Divider />
           <Box sx={{ flex: '1 1 0%', minHeight: 0 }}>
@@ -95,6 +90,43 @@ async function echo(chatCtl: ChatController): Promise<void> {
     ],
   });
 
+  let mauCauHoi = '';
+  let messageHuongDan = 'Hãy nhập vào dấu ... trong mẫu câu bên dưới.';
+  switch (mulSel.value) {
+    case '1 : Hỏi về chế độ ăn hàng ngày':
+      mauCauHoi +=
+        'Chào bác sĩ, tôi muốn hỏi chế độ ăn cho cháu có chiều cao … cm ; cân nặng … kg ; giới tính … ; … tháng tuổi.';
+      break;
+    case '2 : Hỏi về chế độ dinh dưỡng cho các hiện tượng':
+      mauCauHoi +=
+        'Chào bác sĩ, cháu nhà tôi có hiện tượng … thì chế độ dinh dưỡng như thế nào để khắc phục ạ ?';
+      messageHuongDan +=
+        '\nBạn có thể nhập nhiều hiện tượng vào dấu … , mỗi hiện tượng cách nhau 1 dấu “;”';
+      break;
+    case '3 : Hỏi về vai trò và nhu cầu của chất dinh dưỡng':
+      mauCauHoi +=
+        'Chào bác sĩ, tôi cần biết thông tin về chất … cho trẻ … tuổi';
+      break;
+    default:
+      break;
+  }
+
+  await chatCtl.addMessage({
+    type: 'text',
+    content: messageHuongDan,
+    self: false,
+    avatar: '-',
+  });
+
+  const text = await chatCtl.setActionRequest({
+    type: 'text',
+    defaultValue: mauCauHoi,
+    placeholder: 'Please enter something',
+  });
+
+  console.log(text.value);
+
+  // call api
   const response = await fetch(
     'http://34.122.94.78:30666/api/user/updateInfoUser',
     {
@@ -109,32 +141,24 @@ async function echo(chatCtl: ChatController): Promise<void> {
       method: 'POST',
     },
   );
+
   const parseJson = await response.json().then((data) => data.message);
+
   await chatCtl.addMessage({
     type: 'text',
-    content: `${parseJson} ${mulSel.value}`,
+    content: `${parseJson}`,
     self: false,
     avatar: '-',
   });
 
-  await chatCtl.addMessage({
-    type: 'text',
-    content: `Please enter something.`,
-    self: false,
-    avatar: '-',
-  });
-  const text = await chatCtl.setActionRequest({
-    type: 'text',
-    placeholder: 'Please enter something',
-  });
+  // await chatCtl.addMessage({
+  //   type: 'text',
+  //   content: `You have entered:\n${text.value}`,
+  //   self: false,
+  //   avatar: '-',
+  // });
 
-  await chatCtl.addMessage({
-    type: 'text',
-    content: `You have entered:\n${text.value}`,
-    self: false,
-    avatar: '-',
-  });
-
+  /* gender
   await chatCtl.addMessage({
     type: 'text',
     content: `What is your gender?`,
@@ -164,7 +188,9 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: '-',
   });
+  */
 
+  /* send picture
   await chatCtl.addMessage({
     type: 'text',
     content: `What is your favorite picture?`,
@@ -193,7 +219,9 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: '-',
   });
+  */
 
+  /* send voice 
   await chatCtl.addMessage({
     type: 'text',
     content: `Please enter your voice.`,
@@ -241,10 +269,11 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: '-',
   });
+  */
 
   echo(chatCtl);
 }
-
+/*
 function GoodInput({
   chatController,
   actionRequest,
@@ -272,3 +301,4 @@ function GoodInput({
     </div>
   );
 }
+*/
