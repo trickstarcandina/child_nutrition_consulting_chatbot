@@ -69,6 +69,16 @@ public class MessageService {
 
     // kịch bản 3
     private String tuVanVaiTroDinhDuong(String message) {
+        String chat = message.substring(43,message.indexOf("cho trẻ")).replace(" ","");
+        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tuổi")).replace(" ","");
         return "";
+    }
+
+    public static void main(String[] args) {
+        String x = "Chào bác sĩ, tôi cần biết thông tin về chất ABC cho trẻ 44 tuổi";
+        String chat = x.substring(43,x.indexOf("cho trẻ")).replace(" ","");
+        String tuoi = x.substring(x.indexOf("cho trẻ") + 7,x.indexOf("tuổi")).replace(" ","");
+        System.out.println(chat);
+        System.out.println(tuoi);
     }
 }
