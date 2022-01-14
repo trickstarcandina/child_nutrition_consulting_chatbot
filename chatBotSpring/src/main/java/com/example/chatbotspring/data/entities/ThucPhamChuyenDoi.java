@@ -18,4 +18,8 @@ public class ThucPhamChuyenDoi extends BaseEntity {
     private String chatBeoBaoHoa;
     private String protein;
     private double xo;
+
+    public String getThucPham(){
+        return ten+"("+kcal+"/"+"100g"+")";
+    }
 }

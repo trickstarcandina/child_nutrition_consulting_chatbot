@@ -18,6 +18,7 @@ public class MessageService {
 
     private final VanDeDinhDuongRepository vanDeDinhDuongRepository;
     private final GiaiPhapRepository giaiPhapRepository;
+    private final ThucDonService thucDonService;
 
     public String solveMessage(String message) {
         if (message.startsWith("Chào bác sĩ, tôi muốn hỏi chế độ ăn cho cháu có")
@@ -33,7 +34,32 @@ public class MessageService {
 
     // kịch bản 1
     private String tuVanKhauPhanAn(String message) {
-        return "";
+        double height = 0, weight = 0;
+        int month = 0;
+        String sex=null;
+        message = message.substring(message.indexOf("chiều cao"));
+        String[] cacThongTin = message.split(";");
+        for (String thongTin : cacThongTin) {
+            if (thongTin.contains("chiều cao")) {
+                thongTin = thongTin.substring("chiều cao".length()+1, thongTin.indexOf("cm"));
+                height = Double.parseDouble(thongTin.trim());
+            }
+
+            if (thongTin.contains("cân nặng")) {
+                thongTin = thongTin.substring("cân nặng".length()+1, thongTin.indexOf("kg"));
+                weight = Double.parseDouble(thongTin.trim());
+            }
+            if (thongTin.contains("giới tính")) {
+                thongTin = thongTin.substring("giới tính".length()+1);
+                sex = thongTin.trim();
+            }
+            if (thongTin.contains("tháng tuổi")) {
+                thongTin = thongTin.substring(0, thongTin.indexOf("tháng tuổi"));
+                month = Integer.parseInt(thongTin.trim());
+            }
+
+        }
+        return thucDonService.result(sex, month, weight, height);
     }
 
     // kịch bản 2
