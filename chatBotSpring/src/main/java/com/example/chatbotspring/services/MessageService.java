@@ -1,9 +1,7 @@
 package com.example.chatbotspring.services;
 
-import com.example.chatbotspring.data.entities.GiaiPhap;
-import com.example.chatbotspring.data.entities.VanDeDinhDuong;
-import com.example.chatbotspring.data.repository.GiaiPhapRepository;
-import com.example.chatbotspring.data.repository.VanDeDinhDuongRepository;
+import com.example.chatbotspring.data.entities.*;
+import com.example.chatbotspring.data.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,12 @@ public class MessageService {
     private final VanDeDinhDuongRepository vanDeDinhDuongRepository;
     private final GiaiPhapRepository giaiPhapRepository;
     private final ThucDonService thucDonService;
+    private final VaiTroRepository vaiTroRepository;
+    private final NhuCauVitaminRepository nhuCauVitaminRepository;
+    private final NhuCauProteinRepository nhuCauProteinRepository;
+    private final NhuCauLipidRepository nhuCauLipidRepository;
+    private final NhuCauGlucidRepository nhuCauGlucidRepository;
+    private final NhuCauNuocRepository nhuCauNuocRepository;
 
     public String solveMessage(String message) {
         if (message.startsWith("Chào bác sĩ, tôi muốn hỏi chế độ ăn cho cháu có")
@@ -97,14 +101,95 @@ public class MessageService {
     private String tuVanVaiTroDinhDuong(String message) {
         String chat = message.substring(43,message.indexOf("cho trẻ")).replace(" ","");
         String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tuổi")).replace(" ","");
-        return "";
-    }
-
-    public static void main(String[] args) {
-        String x = "Chào bác sĩ, tôi cần biết thông tin về chất ABC cho trẻ 44 tuổi";
-        String chat = x.substring(43,x.indexOf("cho trẻ")).replace(" ","");
-        String tuoi = x.substring(x.indexOf("cho trẻ") + 7,x.indexOf("tuổi")).replace(" ","");
-        System.out.println(chat);
-        System.out.println(tuoi);
+        //check query return null => ko có csdl
+        StringBuffer vaitro = new StringBuffer();
+        StringBuffer dinhduong = new StringBuffer();
+        if(chat.contains("Vitamin")) {
+            List<String> vaiTroList = vaiTroRepository.findByVaiTroVitamin();
+            for(int i=0; i<vaiTroList.size(); i++) {
+                if(vaiTroList.get(i).contains(chat)) {
+                    vaitro.append(vaiTroList.get(i));
+                    vaitro.append("\n");
+                }
+            }
+            NhuCauVitamin nhuCauVitamin = nhuCauVitaminRepository.findByTuoi(Double.valueOf(tuoi));
+            if(chat.equals("Vitamin")) {
+                vaitro.append(nhuCauVitamin.toString());
+            }
+            else if (chat.equals("Vitamin A")) {
+                vaitro.append(nhuCauVitamin.getVitaminA());
+            }
+            else if (chat.equals("Vitamin D")) {
+                vaitro.append(nhuCauVitamin.getVitaminD());
+            }
+            else if (chat.equals("Vitamin E")) {
+                vaitro.append(nhuCauVitamin.getVitaminE());
+            }
+            else if (chat.equals("Vitamin K")) {
+                vaitro.append(nhuCauVitamin.getVitaminK());
+            }
+            else if (chat.equals("Vitamin B1")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin B2")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin B3")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin B6")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin B9")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin B12")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            else if (chat.equals("Vitamin C")) {
+                vaitro.append(nhuCauVitamin.getVitaminB1());
+            }
+            dinhduong.append(" (mcg/ngày)");
+        }
+        else if (chat.contains("Sắt") || chat.contains("Maggie") || chat.contains("Canxi")
+        || chat.contains("Phospho") || chat.contains("Kẽm") || chat.contains("Đồng") || chat.contains("Seleni")) {
+            List<String> vaiTroList = vaiTroRepository.findByVaiTroKhoangChat();
+            for(int i=0; i<vaiTroList.size(); i++) {
+                if(vaiTroList.get(i).contains(chat)) {
+                    vaitro.append(vaiTroList.get(i));
+                    vaitro.append("\n");
+                }
+            }
+        }
+        else {
+            List<String> vaiTroList = vaiTroRepository.findByVaiTro(chat);
+            for(int i=0; i<vaiTroList.size(); i++) {
+                    vaitro.append(vaiTroList.get(i));
+                    vaitro.append("\n");
+            }
+            if(chat.contains("Protein")) {
+                dinhduong.append(nhuCauProteinRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
+                dinhduong.append(" (g/kg/ngày)");
+            }
+            else if (chat.contains("Lipid")) {
+                dinhduong.append(nhuCauLipidRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
+                dinhduong.append(" (gam / ngày)");
+            }
+            else if (chat.contains("Glucid")) {
+                dinhduong.append(nhuCauGlucidRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
+                dinhduong.append("(g/ngày)");
+            }
+            else if (chat.contains("Nước")) {
+                NhuCauNuoc nhuCauNuoc = nhuCauNuocRepository.findByTuoi(Double.valueOf(tuoi)).get(0);
+                dinhduong.append("Tối thiểu là: ");
+                dinhduong.append(nhuCauNuoc.getKhoiLuongToiThieu());
+                dinhduong.append(" Nước/kg/24 giờ (ml) \n");
+                dinhduong.append("Tối đa là: ");
+                dinhduong.append(nhuCauNuoc.getKhoiLuongToiDa());
+                dinhduong.append(" Nước/kg/24 giờ (ml) \n");
+            }
+        }
+        return "Vai trò của chất là: \n" + vaitro +
+                "\n" + "Nhu cầu đối với trẻ là: \n" + dinhduong;
     }
 }
