@@ -14,7 +14,6 @@ public class NhuCauNangLuong extends BaseEntity {
     // tính theo tháng
     private double tuoiToiThieu;
     private double tuoiToiDa;
-    private double khoiLuongToiThieu;
-    private double khoiLuongToiDa;
+    private double khoiLuong;
 
 }
