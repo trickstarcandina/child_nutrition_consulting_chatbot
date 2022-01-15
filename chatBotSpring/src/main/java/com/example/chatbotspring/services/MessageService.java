@@ -5,10 +5,7 @@ import com.example.chatbotspring.data.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +20,7 @@ public class MessageService {
     private final NhuCauLipidRepository nhuCauLipidRepository;
     private final NhuCauGlucidRepository nhuCauGlucidRepository;
     private final NhuCauNuocRepository nhuCauNuocRepository;
+    private final NhuCauKhoangChatRepository nhuCauKhoangChatRepository;
 
     public String solveMessage(String message) {
         if (message.startsWith("Chào bác sĩ, tôi muốn hỏi chế độ ăn cho cháu có")
@@ -99,12 +97,12 @@ public class MessageService {
 
     // kịch bản 3
     private String tuVanVaiTroDinhDuong(String message) {
-        String chat = message.substring(43,message.indexOf("cho trẻ")).replace(" ","");
-        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tháng tuổi")).replace(" ","");
+        String chat = message.substring(44,message.indexOf(" cho trẻ")).toLowerCase();
+        String tuoi = message.substring(message.indexOf("cho trẻ ") + 8,message.indexOf(" tháng tuổi"));
         //check query return null => ko có csdl
         StringBuffer vaitro = new StringBuffer();
         StringBuffer dinhduong = new StringBuffer();
-        if(chat.contains("Vitamin")) {
+        if(chat.contains("vitamin")) {
             List<String> vaiTroList = vaiTroRepository.findByVaiTroVitamin();
             for(int i=0; i<vaiTroList.size(); i++) {
                 if(vaiTroList.get(i).contains(chat)) {
@@ -113,73 +111,109 @@ public class MessageService {
                 }
             }
             NhuCauVitamin nhuCauVitamin = nhuCauVitaminRepository.findByTuoi(Double.valueOf(tuoi));
-            if(chat.equals("Vitamin")) {
-                vaitro.append(nhuCauVitamin.toString());
+            if(chat.equals("vitamin")) {
+                dinhduong.append(nhuCauVitamin.toString());
             }
-            else if (chat.equals("Vitamin A")) {
-                vaitro.append(nhuCauVitamin.getVitaminA());
+            else if (chat.equals("vitamin a")) {
+                dinhduong.append(nhuCauVitamin.getVitaminA());
             }
-            else if (chat.equals("Vitamin D")) {
-                vaitro.append(nhuCauVitamin.getVitaminD());
+            else if (chat.equals("vitamin d")) {
+                dinhduong.append(nhuCauVitamin.getVitaminD());
             }
-            else if (chat.equals("Vitamin E")) {
-                vaitro.append(nhuCauVitamin.getVitaminE());
+            else if (chat.equals("vitamin e")) {
+                dinhduong.append(nhuCauVitamin.getVitaminE());
             }
-            else if (chat.equals("Vitamin K")) {
-                vaitro.append(nhuCauVitamin.getVitaminK());
+            else if (chat.equals("vitamin k")) {
+                dinhduong.append(nhuCauVitamin.getVitaminK());
             }
-            else if (chat.equals("Vitamin B1")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b1")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin B2")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b2")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin B3")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b3")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin B6")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b6")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin B9")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b9")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin B12")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin b12")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
-            else if (chat.equals("Vitamin C")) {
-                vaitro.append(nhuCauVitamin.getVitaminB1());
+            else if (chat.equals("vitamin c")) {
+                dinhduong.append(nhuCauVitamin.getVitaminB1());
             }
             dinhduong.append(" (mcg/ngày)");
         }
-        else if (chat.contains("Sắt") || chat.contains("Maggie") || chat.contains("Canxi")
-        || chat.contains("Phospho") || chat.contains("Kẽm") || chat.contains("Đồng") || chat.contains("Seleni")) {
+        else if (chat.contains("iot") || chat.contains("sắt") || chat.contains("maggie") || chat.contains("canxi") || chat.contains("phospho")
+                || chat.contains("kẽm") || chat.contains("đồng") || chat.contains("seleni") || chat.contains("khoáng chất")) {
             List<String> vaiTroList = vaiTroRepository.findByVaiTroKhoangChat();
-            for(int i=0; i<vaiTroList.size(); i++) {
-                if(vaiTroList.get(i).contains(chat)) {
+            for (int i = 0; i < vaiTroList.size(); i++) {
+                if (chat.equals("khoáng chất") || vaiTroList.get(i).contains(chat)) {
                     vaitro.append(vaiTroList.get(i));
                     vaitro.append("\n");
                 }
             }
+            NhuCauChatKhoang nhuCauChatKhoang = nhuCauKhoangChatRepository.findByTuoi(Double.valueOf(tuoi));
+            if(chat.equals("khoáng chất")) {
+                dinhduong.append(nhuCauChatKhoang.toString());
+            }
+            else if (chat.equals("iot")) {
+                dinhduong.append(nhuCauChatKhoang.getIot());
+                dinhduong.append("10^-6g/ngày");
+            }
+            else if(chat.equals("sắt")) {
+                dinhduong.append(nhuCauChatKhoang.getSat());
+                dinhduong.append("10^-3g/ngày");
+            }
+            else if(chat.equals("maggie")) {
+                dinhduong.append(nhuCauChatKhoang.getMaggie());
+                dinhduong.append("10^-3g/ngày");
+            }
+            else if(chat.equals("canxi")) {
+                dinhduong.append(nhuCauChatKhoang.getCanxi());
+                dinhduong.append("10^-3g/ngày");
+            }
+            else if(chat.equals("phospho")) {
+                dinhduong.append(nhuCauChatKhoang.getPhospho());
+                dinhduong.append("10^-3g/ngày");
+            }
+            else if(chat.equals("kẽm")) {
+                dinhduong.append(nhuCauChatKhoang.getKem());
+                dinhduong.append("10^-3g/ngày");
+            }
+            else if(chat.equals("đồng")) {
+                dinhduong.append(nhuCauChatKhoang.getDong());
+                dinhduong.append("10^-6g/ngày");
+            }
+            else if(chat.equals("seleni")) {
+                dinhduong.append(nhuCauChatKhoang.getSeleni());
+                dinhduong.append("10^-6g/ngày");
+            }
         }
         else {
-            List<String> vaiTroList = vaiTroRepository.findByVaiTro(chat);
+            List<String> vaiTroList = vaiTroRepository.findByVaiTro(chat.substring(0,1).toUpperCase() + chat.substring(1));
             for(int i=0; i<vaiTroList.size(); i++) {
                     vaitro.append(vaiTroList.get(i));
                     vaitro.append("\n");
             }
-            if(chat.contains("Protein")) {
+            if(chat.contains("protein")) {
                 dinhduong.append(nhuCauProteinRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
                 dinhduong.append(" (g/kg/ngày)");
             }
-            else if (chat.contains("Lipid")) {
+            else if (chat.contains("lipit")) {
                 dinhduong.append(nhuCauLipidRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
                 dinhduong.append(" (gam / ngày)");
             }
-            else if (chat.contains("Glucid")) {
+            else if (chat.contains("glucid")) {
                 dinhduong.append(nhuCauGlucidRepository.findByTuoi(Double.valueOf(tuoi)).getKhoiLuong());
                 dinhduong.append("(g/ngày)");
             }
-            else if (chat.contains("Nước")) {
+            else if (chat.contains("nước")) {
                 NhuCauNuoc nhuCauNuoc = nhuCauNuocRepository.findByTuoi(Double.valueOf(tuoi)).get(0);
                 dinhduong.append("Tối thiểu là: ");
                 dinhduong.append(nhuCauNuoc.getDungLuongToiThieu());
