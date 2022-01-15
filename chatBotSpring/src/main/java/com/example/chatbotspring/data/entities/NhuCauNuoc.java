@@ -3,7 +3,6 @@ package com.example.chatbotspring.data.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -17,7 +16,7 @@ public class NhuCauNuoc extends BaseEntity {
     // tính theo kg
     private double canNang;
     // nước/kg/24h (ml) tối thiểu
-    private double khoiLuongToiThieu;
+    private double dungLuongToiThieu;
     // nước/kg/24h (ml) tối đa
-    private double khoiLuongToiDa;
+    private double dungLuongToiDa;
 }
