@@ -31,7 +31,7 @@ public class MessageService {
             return tuVanKhauPhanAn(message);
         if (message.startsWith("Chào bác sĩ, cháu nhà tôi có hiện tượng") && message.contains("thì chế độ dinh dưỡng như thế nào để khắc phục ạ"))
             return tuVanVanDeDinhDuong(message);
-        if (message.startsWith("Chào bác sĩ, tôi cần biết thông tin về chất") && message.contains("tuổi"))
+        if (message.startsWith("Chào bác sĩ, tôi cần biết thông tin về chất") && message.contains("tháng tuổi"))
             return tuVanVaiTroDinhDuong(message);
         return "Không thể nhận dạng thông tin cần tư vấn";
     }
@@ -100,7 +100,7 @@ public class MessageService {
     // kịch bản 3
     private String tuVanVaiTroDinhDuong(String message) {
         String chat = message.substring(43,message.indexOf("cho trẻ")).replace(" ","");
-        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tuổi")).replace(" ","");
+        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tháng tuổi")).replace(" ","");
         //check query return null => ko có csdl
         StringBuffer vaitro = new StringBuffer();
         StringBuffer dinhduong = new StringBuffer();
