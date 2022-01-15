@@ -124,25 +124,9 @@ async function echo(chatCtl: ChatController): Promise<void> {
     placeholder: 'Please enter something',
   });
 
-  // call api
-  // const response = await fetch(
-  //   'http://34.122.94.78:30666/api/user/updateInfoUser',
-  //   {
-  //     body: JSON.stringify({
-  //       username: 'trickstar101',
-  //       address: 'jahfjhbajhfb',
-  //     }),
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     method: 'POST',
-  //   },
-  // );
-
   // const parseJson = await response.json().then((data) => data.message);
 
-  const urlAPI = `http://localhost:8081/api/sendMessage?message=${text.value}`;
+  const urlAPI = `http://34.122.94.78:8999/api/sendMessage?message=${text.value}`;
   console.log(urlAPI);
   const response = await fetch(urlAPI, {
     method: 'POST',
