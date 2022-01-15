@@ -73,7 +73,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
     avatar: '-',
   });
   const mulSel = await chatCtl.setActionRequest({
-    type: 'multi-select',
+    type: 'select',
     options: [
       {
         value: 'KB1',
@@ -105,7 +105,7 @@ async function echo(chatCtl: ChatController): Promise<void> {
       break;
     case '3 : Hỏi về vai trò và nhu cầu của chất dinh dưỡng':
       mauCauHoi +=
-        'Chào bác sĩ, tôi cần biết thông tin về chất … cho trẻ … tuổi';
+        'Chào bác sĩ, tôi cần biết thông tin về chất … cho trẻ … tháng tuổi';
       break;
     default:
       break;
@@ -127,7 +127,6 @@ async function echo(chatCtl: ChatController): Promise<void> {
   // const parseJson = await response.json().then((data) => data.message);
 
   const urlAPI = `http://34.122.94.78:8999/api/sendMessage?message=${text.value}`;
-  console.log(urlAPI);
   const response = await fetch(urlAPI, {
     method: 'POST',
   });

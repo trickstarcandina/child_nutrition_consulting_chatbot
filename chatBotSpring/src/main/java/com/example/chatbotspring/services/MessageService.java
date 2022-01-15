@@ -31,7 +31,7 @@ public class MessageService {
             return tuVanKhauPhanAn(message);
         if (message.startsWith("Chào bác sĩ, cháu nhà tôi có hiện tượng") && message.contains("thì chế độ dinh dưỡng như thế nào để khắc phục ạ"))
             return tuVanVanDeDinhDuong(message);
-        if (message.startsWith("Chào bác sĩ, tôi cần biết thông tin về chất") && message.contains("tuổi"))
+        if (message.startsWith("Chào bác sĩ, tôi cần biết thông tin về chất") && message.contains("tháng tuổi"))
             return tuVanVaiTroDinhDuong(message);
         return "Không thể nhận dạng thông tin cần tư vấn";
     }
