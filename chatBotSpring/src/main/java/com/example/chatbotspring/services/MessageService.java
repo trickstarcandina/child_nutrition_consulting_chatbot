@@ -100,7 +100,7 @@ public class MessageService {
     // kịch bản 3
     private String tuVanVaiTroDinhDuong(String message) {
         String chat = message.substring(43,message.indexOf("cho trẻ")).replace(" ","");
-        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tuổi")).replace(" ","");
+        String tuoi = message.substring(message.indexOf("cho trẻ") + 7,message.indexOf("tháng tuổi")).replace(" ","");
         //check query return null => ko có csdl
         StringBuffer vaitro = new StringBuffer();
         StringBuffer dinhduong = new StringBuffer();
