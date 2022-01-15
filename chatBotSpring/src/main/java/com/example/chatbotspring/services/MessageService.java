@@ -182,10 +182,10 @@ public class MessageService {
             else if (chat.contains("Nước")) {
                 NhuCauNuoc nhuCauNuoc = nhuCauNuocRepository.findByTuoi(Double.valueOf(tuoi)).get(0);
                 dinhduong.append("Tối thiểu là: ");
-                dinhduong.append(nhuCauNuoc.getKhoiLuongToiThieu());
+                dinhduong.append(nhuCauNuoc.getDungLuongToiThieu());
                 dinhduong.append(" Nước/kg/24 giờ (ml) \n");
                 dinhduong.append("Tối đa là: ");
-                dinhduong.append(nhuCauNuoc.getKhoiLuongToiDa());
+                dinhduong.append(nhuCauNuoc.getDungLuongToiDa());
                 dinhduong.append(" Nước/kg/24 giờ (ml) \n");
             }
         }
