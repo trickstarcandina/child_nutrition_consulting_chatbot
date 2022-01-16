@@ -14,3 +14,5 @@ Expert Systems Principles and Programming, Third Edition-Course Technology
 -Sử dụng các công cụ lập trình để xây dựng hệ thống dựa trên các tri thức đã được mô tả ở trên. Chạy hệ thống theo các kịch bản đã nêu ở trên. Giải thích các chi tiết trong hệ thống tương ứng với các tri thức đã tìm hiểu được.
 
 Repo gốc của UI tham khảo tại : https://github.com/twihike/chat-ui-react
+
+Youtube : https://www.youtube.com/playlist?list=PLc_BuAdI3FK1CfqU32kAsIeT74yP8aIFU
